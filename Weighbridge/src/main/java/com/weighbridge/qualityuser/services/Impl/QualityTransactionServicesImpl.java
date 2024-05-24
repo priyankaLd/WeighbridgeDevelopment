@@ -422,6 +422,7 @@ public class QualityTransactionServicesImpl implements QualityTransactionService
         return responses;
     }
 
+
     @Override
     public void passQualityTransaction(Integer ticketNo) {
         HttpSession session = httpServletRequest.getSession();
@@ -461,6 +462,7 @@ public class QualityTransactionServicesImpl implements QualityTransactionService
         vehicleTransactionStatus.setStatusCode("QCT");
         vehicleTransactionStatusRepository.save(vehicleTransactionStatus);
     }
+
 
 
     /**

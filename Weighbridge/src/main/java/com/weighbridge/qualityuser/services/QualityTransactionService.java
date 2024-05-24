@@ -61,4 +61,5 @@ public interface QualityTransactionService {
 
 
     void passQualityTransaction(Integer ticketNo);
+
 }
