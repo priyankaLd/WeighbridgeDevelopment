@@ -119,6 +119,8 @@ public class QualityTransactionController {
         List<QualityDashboardResponse> response=qualityTransactionService.searchByTicketNoVehicleNoSupplierAndSupplierAddress(ticketNo,vehicleNo,supplierOrCustomerName,supplierOrCustomerAddress);
         return ResponseEntity.ok().body(response);
     }
+
+
     @GetMapping("/search-Date")
     public ResponseEntity<List<QualityDashboardResponse>> searchByDate(
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") String date
@@ -127,6 +129,7 @@ public class QualityTransactionController {
             List<QualityDashboardResponse> response = qualityTransactionService.searchByDate(date);
             return ResponseEntity.ok().body(response);
         } else {
+
             return ResponseEntity.badRequest().body(Collections.emptyList());
         }
     }
@@ -141,6 +144,13 @@ public class QualityTransactionController {
         }
         return ResponseEntity.badRequest().body(List.of("Invalid parameter"));
   }
+
+
+            return ResponseEntity.badRequest().body(Collections.emptyList());
+        }
+    }
+
+
 }
 
 

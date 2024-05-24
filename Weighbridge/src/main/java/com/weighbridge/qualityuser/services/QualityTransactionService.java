@@ -59,5 +59,4 @@ public interface QualityTransactionService {
 
     List<QualityDashboardResponse> searchByDate(String date);
 
-
 }
