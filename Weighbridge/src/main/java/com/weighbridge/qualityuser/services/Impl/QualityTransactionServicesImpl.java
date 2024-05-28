@@ -411,7 +411,7 @@ public class QualityTransactionServicesImpl implements QualityTransactionService
             if (transactionByTicketNo != null) {
                 TransactionLog qctTransactionLog = transactionLogRepository.findByTicketNoAndStatusCode(ticketNo, "QCT");
                 if (qctTransactionLog != null) {
-                    throw new ResponseStatusException(HttpStatus.FOUND,"Quality is exist for the ticket no : "+ ticketNo);
+                    throw new ResponseStatusException(HttpStatus.FOUND, "Quality is exist for the ticket no : " + ticketNo);
                 }
                 qualityDashboardResponse = new QualityDashboardResponse();
                 setQualityDashboardResponseDetails(qualityDashboardResponse, transactionByTicketNo);
@@ -466,10 +466,9 @@ public class QualityTransactionServicesImpl implements QualityTransactionService
         return responses;
     }
 
-
     @Override
     public List<QualityDashboardResponse> searchByVehicleNo(String vehicleNo) {
-        List<QualityDashboardResponse> responses=new ArrayList<>();
+        List<QualityDashboardResponse> responses = new ArrayList<>();
         HttpSession session = httpServletRequest.getSession();
         String userId;
         String userCompanyId;
@@ -490,11 +489,11 @@ public class QualityTransactionServicesImpl implements QualityTransactionService
                 List<GateEntryTransaction> transactionsByVehicleId = gateEntryTransactionRepository.findByVehicleIdOrderByTicketNo(vehicleMaster.getId());
                 for (GateEntryTransaction gateEntryTransaction : transactionsByVehicleId) {
                     GateEntryTransaction transactionByTicketNo = gateEntryTransactionRepository.findByTicketNoAndCompanyIdAndSiteId(gateEntryTransaction.getTicketNo(), userCompanyId, userSiteId);
-                    if(transactionByTicketNo!=null){
-                        TransactionLog qctTransactionLog=transactionLogRepository.findByTicketNoAndStatusCode(transactionByTicketNo.getTicketNo(),"QCT");
-                        if(qctTransactionLog==null){
-                            QualityDashboardResponse qualityDashboardResponse=new QualityDashboardResponse();
-                            setQualityDashboardResponseDetails(qualityDashboardResponse,gateEntryTransaction);
+                    if (transactionByTicketNo != null) {
+                        TransactionLog qctTransactionLog = transactionLogRepository.findByTicketNoAndStatusCode(transactionByTicketNo.getTicketNo(), "QCT");
+                        if (qctTransactionLog == null) {
+                            QualityDashboardResponse qualityDashboardResponse = new QualityDashboardResponse();
+                            setQualityDashboardResponseDetails(qualityDashboardResponse, gateEntryTransaction);
                             responses.add(qualityDashboardResponse);
                         }
 
@@ -504,5 +503,4 @@ public class QualityTransactionServicesImpl implements QualityTransactionService
         }
         return responses;
     }
-
 }
