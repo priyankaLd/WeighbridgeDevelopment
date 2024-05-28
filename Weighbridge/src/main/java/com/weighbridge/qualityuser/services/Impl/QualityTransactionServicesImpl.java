@@ -404,7 +404,6 @@ public class QualityTransactionServicesImpl implements QualityTransactionService
         } else {
             throw new SessionExpiredException("Session Expired, Login again!");
         }
-
         QualityDashboardResponse qualityDashboardResponse = null;
 
         if (ticketNo != null) {
@@ -425,6 +424,7 @@ public class QualityTransactionServicesImpl implements QualityTransactionService
         return qualityDashboardResponse;
     }
 
+    //search by supplierName and address
     @Override
     public List<QualityDashboardResponse> searchBySupplierOrCustomerNameAndAddress(String supplierOrCustomerName, String supplierOrCustomerAddress) {
         List<QualityDashboardResponse> responses = new ArrayList<>();
@@ -469,17 +469,36 @@ public class QualityTransactionServicesImpl implements QualityTransactionService
 
     @Override
     public List<QualityDashboardResponse> searchByVehicleNo(String vehicleNo) {
-        List<QualityDashboardResponse> responses = new ArrayList<>(); // Initialize the list
+        List<QualityDashboardResponse> responses=new ArrayList<>();
+        HttpSession session = httpServletRequest.getSession();
+        String userId;
+        String userCompanyId;
+        String userSiteId;
+
+        if (session != null && session.getAttribute("userId") != null) {
+            userId = session.getAttribute("userId").toString();
+            userSiteId = session.getAttribute("userSite").toString();
+            userCompanyId = session.getAttribute("userCompany").toString();
+        } else {
+            throw new SessionExpiredException("Session Expired, Login again!");
+        }
+
         // Search by vehicleNo
         if (vehicleNo != null) {
             VehicleMaster vehicleMaster = vehicleMasterRepository.findByVehicleNo(vehicleNo);
             if (vehicleMaster != null) {
-                List<GateEntryTransaction> transactionsByVehicleId = gateEntryTransactionRepository.findByVehicleIdOrderByTicketNoDesc(vehicleMaster.getId());
-                Collections.sort(transactionsByVehicleId, Comparator.comparing(GateEntryTransaction::getTicketNo).reversed());
+                List<GateEntryTransaction> transactionsByVehicleId = gateEntryTransactionRepository.findByVehicleIdOrderByTicketNo(vehicleMaster.getId());
                 for (GateEntryTransaction gateEntryTransaction : transactionsByVehicleId) {
-                    QualityDashboardResponse qualityDashboardResponse = new QualityDashboardResponse();
-                    setQualityDashboardResponseDetails(qualityDashboardResponse, gateEntryTransaction);
-                    responses.add(qualityDashboardResponse);
+                    GateEntryTransaction transactionByTicketNo = gateEntryTransactionRepository.findByTicketNoAndCompanyIdAndSiteId(gateEntryTransaction.getTicketNo(), userCompanyId, userSiteId);
+                    if(transactionByTicketNo!=null){
+                        TransactionLog qctTransactionLog=transactionLogRepository.findByTicketNoAndStatusCode(transactionByTicketNo.getTicketNo(),"QCT");
+                        if(qctTransactionLog==null){
+                            QualityDashboardResponse qualityDashboardResponse=new QualityDashboardResponse();
+                            setQualityDashboardResponseDetails(qualityDashboardResponse,gateEntryTransaction);
+                            responses.add(qualityDashboardResponse);
+                        }
+
+                    }
                 }
             }
         }
