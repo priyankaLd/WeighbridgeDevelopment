@@ -411,7 +411,7 @@ public class QualityTransactionServicesImpl implements QualityTransactionService
             if (transactionByTicketNo != null) {
                 TransactionLog qctTransactionLog = transactionLogRepository.findByTicketNoAndStatusCode(ticketNo, "QCT");
                 if (qctTransactionLog != null) {
-                    throw new ResponseStatusException(HttpStatus.FOUND, "Quality is exist for the ticket no : " + ticketNo);
+
                 }
                 qualityDashboardResponse = new QualityDashboardResponse();
                 setQualityDashboardResponseDetails(qualityDashboardResponse, transactionByTicketNo);
@@ -424,7 +424,7 @@ public class QualityTransactionServicesImpl implements QualityTransactionService
         return qualityDashboardResponse;
     }
 
-    //search by supplierName and address
+
     @Override
     public List<QualityDashboardResponse> searchBySupplierOrCustomerNameAndAddress(String supplierOrCustomerName, String supplierOrCustomerAddress) {
         List<QualityDashboardResponse> responses = new ArrayList<>();
