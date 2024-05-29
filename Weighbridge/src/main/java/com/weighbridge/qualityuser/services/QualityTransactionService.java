@@ -38,12 +38,6 @@ public interface QualityTransactionService {
 
     void passQualityTransaction(Integer ticketNo);
 
-
-    QualityDashboardResponse searchByTicketNo(Integer ticketNo) throws ResourceNotFoundException;
-
-    List<QualityDashboardResponse> searchByVehicleNo(String vehicleNo);
-
-
     List<QualityDashboardResponse> getInboundTransaction();
 
     List<QualityDashboardResponse> getOutboundTransaction();
