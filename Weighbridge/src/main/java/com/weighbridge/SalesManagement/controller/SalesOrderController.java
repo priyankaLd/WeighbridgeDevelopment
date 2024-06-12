@@ -53,8 +53,8 @@ public class SalesOrderController {
         return ResponseEntity.ok(allSalesDetails);
     }
 
-    @GetMapping("/getSoDetails/{saleOrderNo}")
-    public ResponseEntity<SalesDetailResponse> getSalesDetail(@PathVariable String saleOrderNo){
+    @GetMapping("/getSoDetails")
+    public ResponseEntity<SalesDetailResponse> getSalesDetail(@RequestParam String saleOrderNo){
         SalesDetailResponse salesDetails = salesOrderService.getSalesDetails(saleOrderNo);
         return ResponseEntity.ok(salesDetails);
     }
@@ -84,8 +84,8 @@ public class SalesOrderController {
         return ResponseEntity.ok(vehicleAndTransporterDetail);
     }
 
-    @GetMapping("/searchBySo/{saleOrderNo}")
-    public ResponseEntity<SalesDashboardResponse> searchBySaleOrderNo(@PathVariable String saleOrderNo,@RequestParam String userId){
+    @GetMapping("/searchBySo")
+    public ResponseEntity<SalesDashboardResponse> searchBySaleOrderNo(@RequestParam String saleOrderNo,@RequestParam String userId){
         UserMaster byUserId = userMasterRepository.findById(userId).orElseThrow(()->new ResourceNotFoundException("userId doesnt exist"));
         SalesDashboardResponse salesDashboardResponse = salesOrderService.searchBySaleOrderNo(saleOrderNo,byUserId.getSite().getSiteId(),byUserId.getCompany().getCompanyId());
         return ResponseEntity.ok(salesDashboardResponse);
