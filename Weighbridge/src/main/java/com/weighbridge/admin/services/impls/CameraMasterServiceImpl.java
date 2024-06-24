@@ -4,7 +4,9 @@ import com.weighbridge.admin.dtos.CameraMasterDto;
 import com.weighbridge.admin.entities.CameraMaster;
 import com.weighbridge.admin.entities.RoleMaster;
 import com.weighbridge.admin.exceptions.ResourceNotFoundException;
+
 import com.weighbridge.admin.payloads.CameraMasterResponse;
+
 import com.weighbridge.admin.repsitories.CameraMasterRepository;
 import com.weighbridge.admin.repsitories.CompanyMasterRepository;
 import com.weighbridge.admin.repsitories.RoleMasterRepository;
@@ -14,9 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 public class CameraMasterServiceImpl implements CameraMasterService {
@@ -174,4 +178,5 @@ public class CameraMasterServiceImpl implements CameraMasterService {
             return "record not found.";
         }
     }
+
 }
