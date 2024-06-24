@@ -83,6 +83,7 @@ public class CameraMasterServiceImpl implements CameraMasterService {
             String siteName=siteMasterRepository.findSiteNameBySiteId(cameraMasterDto.getSiteId());
             RoleMaster byId = roleMasterRepository.findById(cameraMasterDto.getRoleId()).get();
             CameraMasterResponse cameraMasterDto1=new CameraMasterResponse();
+            cameraMasterDto1.setCameraId(cameraMasterDto.getId());
             cameraMasterDto1.setCompanyName(companyNameByCompanyId);
             cameraMasterDto1.setSiteName(siteName);
             if(byId!=null) {
@@ -165,12 +166,12 @@ public class CameraMasterServiceImpl implements CameraMasterService {
 
     @Override
     public String deleteCameraDetails(Long id) {
-       if(cameraMasterRepository.existsById(id)){
-           cameraMasterRepository.deleteById(id);
-           return "rcord deeleted with id "+id;
-       }
-       else{
+        if(cameraMasterRepository.existsById(id)){
+            cameraMasterRepository.deleteById(id);
+            return "record deleted with id "+id;
+        }
+        else{
             return "record not found.";
-       }
+        }
     }
 }
